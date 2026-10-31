@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TrueHire - Job Scam Detector</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#0a0e17;--panel:#101726;--p2:#0b111c;--line:#1c2538;--text:#f1f5f9;--muted:#8a97ad;--blue:#3b82f6;--red:#ef4444;--amb:#f59e0b;--grn:#10b981;
+--f:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--m:ui-monospace,Menlo,Consolas,monospace}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4f6fb;--panel:#fff;--p2:#f1f4fa;--line:#dde3ef;--text:#0f172a;--muted:#5b6882}}
+:root[data-theme="light"]{--bg:#f4f6fb;--panel:#fff;--p2:#f1f4fa;--line:#dde3ef;--text:#0f172a;--muted:#5b6882}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 var(--f)}
+button,textarea,input{font:inherit;color:inherit}:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+header{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line)}
+.logo{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:#12203a;color:#5b9bff;border:1px solid #1f3558}
+header b{font-size:21px;font-weight:800}header small{font:500 11px var(--m);letter-spacing:.14em;color:var(--muted)}
+main{max-width:1000px;margin:0 auto;padding:0 16px 40px}
+.hero{text-align:center;padding:48px 0 26px}
+.pill{display:inline-block;font:500 13px var(--m);color:#5b9bff;border:1px solid #1f3558;background:#0e1a3020;padding:6px 14px;border-radius:99px}
+h1{font-size:clamp(32px,6.2vw,58px);line-height:1.08;font-weight:800;letter-spacing:-.02em;margin:20px 0 16px}
+h1 .r{color:#5b9bff}h1 .s{color:#f87171}.lede{max-width:680px;margin:0 auto;color:var(--muted);font-size:18px}
+.panel,.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}.tab{border:0;background:var(--p2);padding:10px 18px;border-radius:12px;color:var(--muted);font-weight:600;cursor:pointer}
+.tab.on{background:var(--blue);color:#fff}
+textarea,input[type=url]{width:100%;background:var(--p2);border:1px solid var(--line);border-radius:16px;padding:15px 17px;font:14px var(--m)}
+textarea{min-height:220px;resize:vertical}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.btn{border:1px solid var(--line);background:var(--p2);padding:10px 18px;border-radius:12px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.p{background:var(--blue);border-color:var(--blue);color:#fff}.btn.d{background:#2a1217;border-color:#5b1f29;color:#fca5a5}
+.chip{background:var(--p2);border:1px solid var(--line);padding:7px 13px;border-radius:10px;cursor:pointer;font-size:14px;color:var(--muted)}
+.chip:hover{color:var(--text)}.sm{color:var(--muted);font-size:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.err{color:#fca5a5;margin:10px 0 0}#res{margin-top:24px;display:grid;gap:14px}
+.vd{display:flex;gap:16px;align-items:center;padding:20px;border-radius:20px;border:1px solid}.vd .i{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;flex:none;color:#fff;font-size:26px;font-weight:800}
+.vd small{font:500 12px var(--m);letter-spacing:.08em;text-transform:uppercase}.vd h2{margin:2px 0 4px;font-size:27px;font-weight:800}.vd p{margin:0;color:var(--muted)}
+.high{--c:#ef4444}.medium{--c:#f59e0b}.low{--c:#10b981}.vd{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,var(--panel))}.vd .i{background:var(--c)}.vd small,.vd h2{color:var(--c)}
+.gauge{text-align:center;padding:26px}.ring{position:relative;width:240px;height:240px;margin:auto}.ring svg{transform:rotate(-90deg);width:100%;height:100%}
+.ring div{position:absolute;inset:0;display:grid;place-content:center}.ring b{font-size:78px;line-height:1;font-weight:800;color:var(--c)}.ring span{font:500 13px var(--m);letter-spacing:.12em;color:var(--muted)}
+.bdg{display:inline-block;margin-top:14px;padding:9px 20px;border-radius:99px;font-weight:700;color:var(--c);border:1px solid var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.again{display:block;margin:10px auto 0;background:none;border:0;color:var(--muted);cursor:pointer}
+.ah{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}.ah h3{margin:0;font-size:21px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}.seg button{border:0;background:var(--p2);padding:7px 15px;color:var(--muted);cursor:pointer}.seg .on{background:var(--blue);color:#fff}
+.ft{color:#f87171;font:500 13px var(--m);letter-spacing:.06em;margin:16px 0 8px;text-transform:uppercase}.fl{list-style:none;margin:0;padding:0;display:grid;gap:8px}.fl li:before{content:"⚑ ";color:#f87171}
+.st{font:500 14px var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:8px 2px 0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.kv{background:var(--p2);border:1px solid var(--line);border-radius:16px;padding:13px 17px;min-width:0}
+.kv small{color:var(--muted);font:500 12px var(--m);text-transform:uppercase;letter-spacing:.06em}.kv div{font:500 15px var(--m);overflow-wrap:anywhere}
+details.ck{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 18px}details summary{cursor:pointer;list-style:none;display:flex;gap:12px;align-items:flex-start}
+details summary::-webkit-details-marker{display:none}.ck h4{margin:0;font-size:17px;display:inline}.ck p{margin:5px 0 0;color:var(--muted)}.ck .m{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:var(--muted)}
+.tag{margin-left:8px;font:700 11px var(--m);padding:3px 8px;border-radius:6px;text-transform:uppercase;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent)}
+.pass{--c:#10b981}.fail{--c:#ef4444}.caution{--c:#f59e0b}.unv{--c:#94a3b8}.dot{width:12px;height:12px;border-radius:50%;background:var(--c);margin-top:7px;flex:none}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.sh{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.sh div:first-child{flex:1 1 220px}.sh h4{margin:0;font-size:18px}.sh p{margin:4px 0 0;color:var(--muted);font-size:14px}.sh .b{display:flex;gap:10px;flex-wrap:wrap}
+pre{white-space:pre-wrap;background:var(--p2);border:1px solid var(--line);border-radius:12px;padding:13px;font:13px/1.5 var(--m);max-height:220px;overflow:auto}
+.foot{text-align:center;color:var(--muted);font-size:14px;max-width:680px;margin:0 auto;padding:6px 20px 36px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px}.stat b{display:block;font-size:30px;font-weight:800;color:var(--c,var(--text))}.stat small{color:var(--muted);font-size:13px}
+.hr{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px;cursor:pointer}.hr:hover{border-color:var(--blue)}.hr .t{flex:1;min-width:0}.hr .t b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hr .t small{color:var(--muted)}.hr .sc{font-weight:800;font-size:22px;color:var(--c);min-width:42px}
+.dh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.dh h2{margin:0;font-size:28px}.rad{display:flex;gap:18px;flex-wrap:wrap}.rad label{cursor:pointer}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+[hidden]{display:none!important}
+@media(max-width:700px){.g2,.cg{grid-template-columns:1fr}header small{display:none}.ring{width:200px;height:200px}.ring b{font-size:64px}.vd h2{font-size:22px}}
+@media print{body{background:#fff;color:#000}.panel,.hero,.no-print,.again,.sh .b,header small{display:none!important}.card,.vd,.kv,details.ck{break-inside:avoid;border-color:#ccc}}
+</style>
+</head>
+<body>
+<header><span class="logo">🛡</span><b>TrueHire</b><small>JOB SCAM DETECTOR</small><nav class="no-print" style="margin-left:auto;display:flex;gap:8px"><button class="btn" id="navCheck">Check</button><button class="btn" id="navDash">Dashboard</button></nav></header>
+<main>
+<section class="hero" id="hero"><span class="pill">Rule engine + GSTIN + Email + Duplicate checks</span>
+<h1>Is this job posting <span class="r">real</span> or a <span class="s">scam?</span></h1>
+<p class="lede">Paste any job posting in English, Hindi or Hinglish and get an explainable fraud-risk report with a clear "should you apply?" verdict, including Indian GSTIN validation.</p></section>
+<section class="panel" id="inp">
+<textarea id="txt" placeholder="Paste the full job posting here… (company, role, salary, contact email, GSTIN if present)"></textarea>
+<p class="err" id="err" hidden></p>
+<div class="row"><div class="sm"><span>Try:</span><button class="chip" data-s="legit">Legit Corporate IT Role</button><button class="chip" data-s="fee">WFH Fee Scam</button><button class="chip" data-s="hing">Hinglish Suspicious Post</button></div>
+<button class="btn p" id="go">Analyse posting</button></div></section>
+<section id="res" hidden></section>
+<section id="dash" hidden style="margin-top:24px;display:grid;gap:14px"></section>
+</main>
+<p class="foot">TrueHire gives a risk assessment, not a legal determination. Everything runs in your browser; nothing is uploaded. Verify independently before sharing money or documents.</p>
+<script>
+const S={legit:`Software Engineer - Backend (Java/Spring Boot)
+Tata Consultancy Services Limited (TCS)
+Location: Bengaluru, Karnataka | Full-time
+
+We are hiring experienced backend engineers to join our Digital Engineering team.
+You will design and build scalable microservices for enterprise banking clients.
+
+Requirements: 3-6 years experience with Java, Spring Boot, REST APIs, SQL.
+Apply via the official careers portal: https://www.tcs.com/careers or write to careers@tcs.com.
+TCS never charges any fee at any stage of recruitment. Documents are collected only after selection.`,
+fee:`Part-time Online Job! Earn ₹3000-5000 daily from home. No experience needed, only 10th pass.
+Pay ₹499 refundable registration fee to confirm your seat. Limited seats, apply today!
+Send your PAN card and bank details to quickjobs.india@gmail.com`,
+hing:`Ghar baithe Whatsapp se kamao ₹2000 daily. Koi experience nahi chahiye, bina interview ke direct joining.
+Pehle ₹999 registration fees bhejna hoga, jaldi apply karo.
+Contact: WhatsApp 9876543210`};
+const F={advance_fee:[60,"Asks for an advance registration or security fee","अग्रिम पंजीकरण या सिक्योरिटी शुल्क माँगा गया है","Advance registration ya security fee maangi ja rahi hai"],
+sensitive_docs:[25,"Asks for PAN, Aadhaar or bank details upfront","शुरुआत में ही PAN, आधार या बैंक विवरण माँगे गए हैं","Shuru mein hi PAN, Aadhaar ya bank details maange ja rahe hain"],
+high_pay:[20,"Unrealistically high pay for unskilled work","बिना कौशल वाले काम के लिए अवास्तविक रूप से ज़्यादा वेतन","Bina skill ke kaam ke liye unrealistic high salary"],
+task_scam:[25,"Task-style work (likes, reviews, copy-paste) typical of task scams","टास्क आधारित काम (लाइक, रिव्यू, कॉपी-पेस्ट) जो अक्सर स्कैम होता है","Task-based kaam (like, review, copy-paste) jo aksar scam hota hai"],
+free_email:[8,"Uses a free personal email address","निजी मुफ़्त ईमेल पते का उपयोग किया गया है","Free personal email (Gmail/Yahoo) use ho rahi hai"],
+urgency:[8,"Creates artificial urgency (limited seats)","कृत्रिम जल्दबाज़ी बनाई गई है (सीमित सीटें)","Artificial urgency banayi gayi hai (limited seats)"],
+messaging:[12,"Pushes you to chat on WhatsApp or Telegram","WhatsApp या Telegram पर बात करने का दबाव","WhatsApp ya Telegram par baat karne ka pressure"],
+no_interview:[12,"Promises selection without a proper interview","बिना उचित इंटरव्यू के चयन का वादा","Bina proper interview ke selection ka promise"],
+guaranteed:[12,"Guarantees income or placement","आय या नौकरी की गारंटी का दावा","Income ya placement ki guarantee ka claim"],
+overseas:[10,"Overseas job with visa or processing money","विदेश की नौकरी, वीज़ा/प्रोसेसिंग के नाम पर पैसे","Overseas job, visa/processing ke naam par paisa"],
+vague:[8,"Company name is missing or vague","कंपनी का नाम गायब या अस्पष्ट है","Company ka naam missing ya unclear hai"]};
+const FREE=["gmail.com","googlemail.com","yahoo.com","yahoo.in","yahoo.co.in","ymail.com","hotmail.com","outlook.com","live.com","rediffmail.com","aol.com","proton.me","protonmail.com","icloud.com","mail.com","zoho.com"];
+const BADTLD=/\.(xyz|top|click|work|buzz|shop|online|site|icu|live|vip|loan|club)$/;
+const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pick=(t,r)=>{const m=t.match(r);return m?m[1].trim().replace(/^[\s\-–:|,.]+|[\s\-–:|,.]+$/g,""):""};
+function extract(t){
+ const email=(t.match(/[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/)||[""])[0].toLowerCase();
+ const gstin=(t.toUpperCase().match(/\b\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]\b/)||[""])[0];
+ let company=pick(t,/(?:company|employer|organi[sz]ation|firm)\s*(?:name)?\s*[:\-]\s*([^\n|]{2,80})/i);
+ if(!company)for(const l of t.split("\n").slice(0,8)){const s=l.trim();if(s.length>3&&s.length<90&&/(Limited|Ltd|Pvt|Private|Inc|LLP|Technologies|Solutions|Services|Corporation|Systems|Consulting|Infotech)/.test(s)){company=s.split(/\s+[|•\-–]\s+/)[0];break}}
+ let title=pick(t,/(?:job\s*title|role|position|designation)\s*[:\-]\s*([^\n|]{2,80})/i);
+ if(!title){const l=t.split("\n").find(x=>x.trim());title=l?l.trim().split(/[.!?]/)[0].slice(0,80):""}
+ let location=pick(t,/location\s*[:\-]\s*([^\n|]{2,60})/i);
+ if(!location&&/work\s*from\s*home|\bwfh\b|remote|ghar\s*baithe|घर\s*से/i.test(t))location="Remote / Work from Home";
+ let domain="";const u=t.match(/(?:https?:\/\/|www\.)[^\s<>"')]+/i);
+ if(u)domain=u[0].replace(/^(?:https?:\/\/)?(?:www\.)?/i,"").split("/")[0].toLowerCase();
+ else if(email&&!FREE.includes(email.split("@")[1]))domain=email.split("@")[1];
+ return{company,job_title:title,gstin,domain,recruiter_email:email,location}}
+function rules(t,f){
+ const h=[],T=r=>r.test(t);
+ if(T(/\b(registration|security|training|processing|joining|verification|kit|id\s*card|laptop|booking)\s*(fee|fees|charge|charges|deposit|amount)\b|refundable\s*(fee|deposit|amount|registration)|\bpay\s*(rs\.?|₹|inr)?\s*\d|(fee|fees|paise)\s*(bhej|jama|dena|pay)|शुल्क/i))h.push("advance_fee");
+ if(T(/\bPAN\b(?!\s*-?\s*India)|aadhaar|aadhar|bank\s*(account|details)|passbook|\bcvv\b|\botp\b|upi\s*pin|atm\s*(card|pin)/i)&&T(/\b(send|share|submit|upload|mail|email|whatsapp|bhej\w*|dena)\b/i)&&!T(/(after|upon|post)\s+(selection|offer|joining|onboarding)|at\s+the\s+time\s+of\s+joining|during\s+onboarding/i))h.push("sensitive_docs");
+ const un=T(/no\s+experience|without\s+experience|experience\s+nahi|fresher|10th|12th|part[\s-]?time|typing|data\s*entry|ghar\s*baithe|work\s*from\s*home|\bwfh\b/i);
+ let pay=false;for(const m of t.matchAll(/(?:₹|rs\.?|inr)\s*([\d,]+)(?:\s*(?:-|–|to)\s*(?:₹|rs\.?|inr)?\s*([\d,]+))?\s*(?:\/|per\s+|a\s+)?\s*(?:day|daily|din)\b/gi)){
+  const a=[m[1],m[2]].filter(Boolean).map(x=>parseInt(x.replace(/,/g,"")));if(Math.max(...a)>=1500)pay=true}
+ const lk=t.match(/(\d+(?:\.\d+)?)\s*(?:lakh|lac)s?\s*(?:\/|per\s+|a\s+)?\s*(?:month|monthly)/i);if(lk&&un&&parseFloat(lk[1])>=.6)pay=true;
+ if(pay&&un)h.push("high_pay");
+ if(T(/(like|subscribe|follow|rate|review)\s+(youtube|videos?|products?|reels?|instagram|channels?)|copy[\s-]?paste|product\s+review|task[\s-]?based|watch\s+(ads|videos)/i))h.push("task_scam");
+ if(f.recruiter_email&&FREE.includes(f.recruiter_email.split("@")[1]))h.push("free_email");
+ if(T(/limited\s*(seats|slots|vacanc)|hurry|urgent(ly)?\s*(hiring|requirement|joining)|immediate(ly)?\s*joining|apply\s*(today|now|fast)|last\s*date\s*(is\s*)?(today|tomorrow)|jaldi|abhi\s*apply|only\s*\d+\s*(seats|slots)/i))h.push("urgency");
+ if(T(/(contact|message|chat|apply|reach)[^\n]{0,40}(whatsapp|telegram)|(whatsapp|telegram)\s*(number|no\.?|only|par|pe|me|mein)/i))h.push("messaging");
+ if(T(/no\s+interview|without\s+(an\s+)?interview|direct\s+(joining|selection)|instant\s+(joining|selection|offer)|selected\s+directly|bina\s+interview/i))h.push("no_interview");
+ if(T(/guarantee(d)?\s*(income|salary|job|placement)|100\s*%\s*(placement|job|guarantee)|assured\s*(income|job)/i))h.push("guaranteed");
+ if(T(/(dubai|gulf|uae|qatar|kuwait|saudi|malaysia)\s*(job|visa|offer|vacanc)|visa\s*(fee|processing)/i))h.push("overseas");
+ if(!f.company&&T(/work\s*from\s*home|\bwfh\b|part[\s-]?time|online\s+job|ghar\s*baithe/i))h.push("vague");
+ return h}
+const B="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+function gOK(g){let s=0;for(let i=0;i<14;i++){const p=B.indexOf(g[i])*(i%2?2:1);s+=Math.floor(p/36)+p%36}
+ const st=+g.slice(0,2);return B[(36-s%36)%36]===g[14]&&((st>=1&&st<=38)||st==97||st==99)}
+const ck=(title,status,summary,detail="",risk=0)=>({title,status,summary,detail,risk});
+function fingerprint(t){let h=5381;for(const w of [...new Set(t.toLowerCase().match(/[a-z0-9]{3,}/g)||[])].sort())for(const c of w)h=((h<<5)+h+c.charCodeAt(0))|0;return h}
+function dupCheck(t,f){const fp=fingerprint(t),who=(f.recruiter_email||"")+"|"+(f.company||"").toLowerCase();let seen=[];
+ try{seen=JSON.parse(localStorage.getItem("th_seen")||"[]")}catch(e){}
+ const m=seen.filter(x=>x.fp===fp);
+ try{seen.push({fp,who});localStorage.setItem("th_seen",JSON.stringify(seen.slice(-200)))}catch(e){}
+ const title="Recycled / Duplicate Posting";
+ if(!m.length)return ck(title,"pass","No duplicate of this posting was found on this device.");
+ if(m.some(x=>x.who!==who))return ck(title,"fail",`Same text seen ${m.length} time(s) with different contact details.`,"Scammers copy one genuine-looking posting and swap in their own contact.",12);
+ return ck(title,"pass","This posting was checked before with the same contact details.")}
+function analyse(t){
+ const f=extract(t),ids=rules(t,f);
+ const prob=ids.length?Math.min(98,ids.reduce((a,i)=>a+F[i][0],0)):3;
+ const flags=ids.sort((a,b)=>F[b][0]-F[a][0]).map(i=>({id:i,en:F[i][1],hi:F[i][2],hing:F[i][3]}));
+ const lvl0=prob>=60?"high":prob>=30?"medium":"low",top=flags[0],n=flags.length;
+ const adv={high:["Do not pay anything and do not share personal documents.","कोई भी पैसा न दें और व्यक्तिगत दस्तावेज़ साझा न करें।","Koi paisa na dein aur personal documents share na karein."],
+  medium:["Verify the employer independently before sharing personal details.","व्यक्तिगत जानकारी देने से पहले नियोक्ता की स्वतंत्र रूप से जाँच करें।","Personal details dene se pehle employer ko khud verify karein."]}[lvl0==="high"?"high":"medium"];
+ const sum=n?{en:`The posting shows ${n} warning sign(s), most notably: ${top.en.toLowerCase()}. ${adv[0]}`,hi:`इस पोस्टिंग में ${n} चेतावनी संकेत हैं, मुख्य रूप से: ${top.hi}। ${adv[1]}`,hing:`Is posting mein ${n} warning sign(s) hain, khaas taur par: ${top.hing}. ${adv[2]}`}
+  :{en:"No common scam indicators were found. Still confirm the role on the employer's official careers page before sharing documents.",hi:"स्कैम के आम संकेत नहीं मिले। फिर भी दस्तावेज़ देने से पहले नियोक्ता के आधिकारिक करियर पेज पर पद की पुष्टि करें।",hing:"Scam ke common signs nahi mile. Phir bhi documents dene se pehle employer ke official careers page par role confirm karein."};
+ const C=[ck("AI Fraud Analysis",prob>=60?"fail":prob>=30?"caution":"pass",`Rule engine flags ${n} concern(s); scam probability ${prob}%.`,"Runs in your browser using pattern rules for English, Hindi and Hinglish.")];
+ if(!f.gstin)C.push(ck("Government GSTIN Verification","unv","No GSTIN found in the posting.","Genuine Indian companies usually have a GSTIN. Ask the recruiter and verify it on the GST portal."));
+ else if(!gOK(f.gstin))C.push(ck("Government GSTIN Verification","fail",f.gstin+" is not a valid GSTIN.","The state code or checksum digit does not match the official format.",20));
+ else C.push(ck("Government GSTIN Verification","caution",f.gstin+" has a valid format.","Format and checksum are correct, but this page cannot confirm the registered name. Check it on the GST portal."));
+ if(!f.domain)C.push(ck("Company Website & Domain","unv","No company website/domain could be identified.","Search for the company's official website yourself and compare it with the posting."));
+ else if(BADTLD.test(f.domain))C.push(ck("Company Website & Domain","caution",f.domain+" uses an extension often seen in throwaway scam sites.","Domain age and DNS cannot be checked in the browser.",6));
+ else C.push(ck("Company Website & Domain","unv",f.domain+" found, but could not be verified.","Domain age and DNS cannot be checked in the browser. Open the site yourself and compare."));
+ const ed=f.recruiter_email.split("@")[1];
+ if(!f.recruiter_email)C.push(ck("Recruiter Email Check","unv","No recruiter email found in the posting."));
+ else if(FREE.includes(ed))C.push(ck("Recruiter Email Check","caution","Recruiter uses a free personal email (e.g. Gmail), not a company domain.",f.recruiter_email+" can be created by anyone in seconds.",6));
+ else C.push(ck("Recruiter Email Check","pass","Email uses a company domain ("+ed+")."));
+ const bad=ids.filter(i=>["advance_fee","task_scam"].includes(i)),some=ids.filter(i=>["high_pay","guaranteed","overseas","sensitive_docs"].includes(i));
+ C.push(bad.length?ck("Salary & Offer Anomaly","fail","Classic advance-fee / task scam signals detected.","Real employers never charge candidates for registration, training, kits or visas."):some.length?ck("Salary & Offer Anomaly","caution","Offer contains claims that are common in scams."):ck("Salary & Offer Anomaly","pass","No salary or offer anomalies detected."));
+ C.push(dupCheck(t,f));
+ const score=Math.max(0,Math.min(100,prob+C.reduce((a,c)=>a+c.risk,0))),level=score>=60?"high":score>=30?"medium":"low";
+ const V={high:["Do not apply","Multiple strong fraud signals were detected. We recommend you do NOT apply, do not pay anything, and do not share personal documents. Consider reporting it."],
+  medium:["Apply with caution","Some warning signs were found. Verify the employer on its official website and never pay or share ID documents before a real interview."],
+  low:["Looks safe to apply","No major fraud signals were found. Still apply through the employer's official careers page and never pay to get a job."]}[level];
+ return{score,level,v:V,sum,flags,f,C}}
+let R,lang="en";
+const LB={high:"High risk: likely fraudulent",medium:"Medium risk: proceed with caution",low:"Low risk: looks genuine"},ST={pass:"Pass",fail:"Fail",caution:"Caution",unv:"Could not verify"},LN={en:"English",hi:"हिंदी",hing:"Hinglish"};
+function ai(){$("#ai").innerHTML=`<div class="ah"><h3>AI analysis</h3><div class="seg">${Object.keys(LN).map(k=>`<button class="${k==lang?"on":""}" data-l="${k}">${LN[k]}</button>`).join("")}</div></div><p>${esc(R.sum[lang])}</p>${R.flags.length?`<div class="ft">Red flags</div><ul class="fl">${R.flags.map(x=>`<li>${esc(x[lang])}</li>`).join("")}</ul>`:""}`;
+ document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{lang=b.dataset.l;ai()})}
+function show(r){R=r;lang="en";const C=2*Math.PI*108,d=x=>esc(x)||"-",x=r.f;
+ $("#hero").hidden=$("#inp").hidden=true;$("#dash").hidden=true;const el=$("#res");el.hidden=false;
+ el.innerHTML=`<div class="vd ${r.level}"><div class="i">${r.level=="low"?"✓":r.level=="high"?"✕":"!"}</div><div><small>Should you apply?</small><h2>${r.v[0]}</h2><p>${r.v[1]}</p></div></div>
+ <div class="card gauge ${r.level}"><div class="ring"><svg viewBox="0 0 250 250"><circle cx="125" cy="125" r="108" fill="none" stroke="var(--line)" stroke-width="16"/><circle id="arc" cx="125" cy="125" r="108" fill="none" stroke="var(--c)" stroke-width="16" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" style="transition:stroke-dashoffset 1s"/></svg><div><b>${r.score}</b><span>RISK SCORE</span></div></div><span class="bdg">${LB[r.level]}</span><button class="again no-print" id="again">↻ Check another posting</button></div>
+ <div class="card" id="ai"></div><div class="st">Extracted details</div>
+ <div class="g2"><div class="kv"><small>Company</small><div>${d(x.company)}</div></div><div class="kv"><small>Job title</small><div>${d(x.job_title)}</div></div><div class="kv"><small>GSTIN</small><div>${d(x.gstin)}</div></div><div class="kv"><small>Domain</small><div>${d(x.domain)}</div></div><div class="kv"><small>Recruiter email</small><div>${d(x.recruiter_email)}</div></div><div class="kv"><small>Location</small><div>${d(x.location)}</div></div></div>
+ <div class="st">Verification checks</div><div class="cg">${r.C.map(c=>`<details class="ck ${c.status}"><summary><span class="dot"></span><span><h4>${esc(c.title)}</h4><span class="tag">${ST[c.status]}</span><p>${esc(c.summary)}</p></span></summary><div class="m">${esc(c.detail)||"No further details."}</div></details>`).join("")}</div>
+ <div class="card sh"><div><h4>Export or report</h4><p>Save this report as PDF from your browser's print dialog.</p></div><div class="b"><button class="btn" id="pdf">Download PDF</button><button class="btn" id="cp">Copy summary</button><button class="btn" id="wr">This result is wrong</button>${r.level!="low"?'<button class="btn d" id="cy">Report to Cyber Cell</button>':""}</div></div><div id="cyb" hidden></div><div id="fbx"></div>`;
+ ai();requestAnimationFrame(()=>requestAnimationFrame(()=>$("#arc").style.strokeDashoffset=C*(1-r.score/100)));
+ const txt=()=>`Subject: Fraudulent job posting\n\nJob title: ${x.job_title||"-"}\nCompany named: ${x.company||"-"}\nRecruiter email: ${x.recruiter_email||"-"}\nWebsite/domain: ${x.domain||"-"}\nRisk score: ${r.score}/100\n\nWarning signs:\n${r.flags.map(f=>"- "+f.en).join("\n")||"- none found"}`;
+ const copy=async s=>{try{await navigator.clipboard.writeText(s);return true}catch(e){return false}};
+ $("#again").onclick=()=>{el.hidden=true;$("#hero").hidden=$("#inp").hidden=false;scrollTo(0,0)};
+ $("#pdf").onclick=()=>print();$("#cp").onclick=async e=>{e.target.textContent=await copy(txt())?"Copied":"Select & copy manually"};
+ $("#cy")&&($("#cy").onclick=()=>{const b=$("#cyb");b.hidden=false;b.innerHTML=`<div class="card"><p>Copy this summary, then file it on the National Cyber Crime Reporting Portal or call <b>1930</b>.</p><pre>${esc(txt())}</pre><div class="b" style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn p" id="cc">Copy summary</button><a class="btn" href="https://cybercrime.gov.in" target="_blank" rel="noopener">Open cybercrime.gov.in</a></div></div>`;$("#cc").onclick=async e=>{e.target.textContent=await copy(txt())?"Copied":"Select & copy manually"}});
+ fbInit(r);scrollTo({top:0,behavior:"smooth"})}
+const DB={get(){try{return JSON.parse(localStorage.getItem("th_reports")||"[]")}catch(e){return[]}},set(a){try{localStorage.setItem("th_reports",JSON.stringify(a.slice(0,200)))}catch(e){}}};
+function fbInit(r){const box=$("#fbx"),prev=DB.get().find(x=>x.fp===r.fp&&x.fb);
+ if(prev)box.innerHTML=`<div class="card">You marked this posting as <b>${prev.fb.says==="scam"?"a scam":"genuine"}</b>${prev.fb.note?": "+esc(prev.fb.note):""}.</div>`;
+ $("#wr").onclick=()=>{box.innerHTML=`<div class="card"><h4 style="margin:0 0 10px;font-size:18px">What is this posting really?</h4><div class="rad"><label><input type="radio" name="tr" value="scam" ${r.level==="low"?"checked":""}> It is a scam</label><label><input type="radio" name="tr" value="safe" ${r.level!=="low"?"checked":""}> It is genuine</label></div><textarea id="fbn" style="min-height:70px;margin-top:12px" placeholder="Optional: what did we get wrong?"></textarea><div class="row"><button class="btn p" id="fbs">Save correction</button></div></div>`;
+  $("#fbs").onclick=()=>{const says=document.querySelector("input[name=tr]:checked").value,d=DB.get(),x=d.find(y=>y.id===r.id);
+   if(x){x.fb={says,note:$("#fbn").value.trim().slice(0,300),date:new Date().toISOString()};DB.set(d)}
+   box.innerHTML=`<div class="card">Correction saved to your dashboard. <button class="btn" id="fbd" style="margin-left:8px">Open dashboard</button></div>`;$("#fbd").onclick=dash}}}
+function dash(){const d=DB.get(),el=$("#dash");$("#hero").hidden=$("#inp").hidden=$("#res").hidden=true;el.hidden=false;
+ const n=l=>d.filter(x=>x.level===l).length,wrong=d.filter(x=>x.fb&&(x.fb.says==="scam"?x.level==="low":x.level!=="low")).length;
+ el.innerHTML=`<div class="dh"><h2>Dashboard</h2><button class="btn" id="clr">Clear history</button></div>
+ <div class="stats"><div class="stat"><b>${d.length}</b><small>Postings checked</small></div><div class="stat high"><b>${n("high")}</b><small>Do not apply</small></div><div class="stat medium"><b>${n("medium")}</b><small>Apply with caution</small></div><div class="stat low"><b>${n("low")}</b><small>Looks safe</small></div><div class="stat caution"><b>${wrong}</b><small>Marked wrong by you</small></div></div>
+ <div class="st">All reports</div>${d.length?d.map(x=>`<button class="hr ${x.level}" data-id="${esc(x.id)}"><span class="sc">${x.score}</span><span class="t"><b>${esc(x.title)}</b><small>${new Date(x.date).toLocaleString()} · ${esc(x.r.v[0])}</small></span>${x.fb?`<span class="tag ${x.fb.says==="scam"?"fail":"pass"}">You say: ${x.fb.says==="scam"?"scam":"genuine"}</span>`:""}</button>`).join(""):'<div class="card">No checks yet. Analyse a posting and it will appear here.</div>'}`;
+ el.querySelectorAll(".hr").forEach(b=>b.onclick=()=>{const x=d.find(y=>y.id===b.dataset.id);x&&show(x.r)});
+ $("#clr").onclick=e=>{if(e.target.dataset.s){DB.set([]);dash()}else{e.target.dataset.s=1;e.target.textContent="Click again to confirm"}};scrollTo(0,0)}
+$("#navDash").onclick=dash;$("#navCheck").onclick=()=>{$("#dash").hidden=$("#res").hidden=true;$("#hero").hidden=$("#inp").hidden=false;scrollTo(0,0)};
+document.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>$("#txt").value=S[b.dataset.s]);
+$("#go").onclick=()=>{const t=$("#txt").value.trim(),e=$("#err");if(t.length<40){e.textContent="Paste the full job posting (at least a couple of lines) so it can be checked.";e.hidden=false;return}e.hidden=true;const r=analyse(t);r.id=Date.now().toString(36);r.fp=fingerprint(t);r.date=new Date().toISOString();const d=DB.get();d.unshift({id:r.id,fp:r.fp,date:r.date,title:r.f.job_title||r.f.company||"Job posting",score:r.score,level:r.level,fb:null,r});DB.set(d);show(r)};
+</script>
+</body>
+</html>
